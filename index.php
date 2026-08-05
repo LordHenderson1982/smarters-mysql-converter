@@ -9,7 +9,7 @@ if ($db->connect_error) {
 }
 
 // Initialize database tables
-$db->query("CREATE TABLE IF NOT EXISTS users(id INT PRIMARY KEY, username TEXT, password TEXT)");
+$db->query("CREATE TABLE IF NOT EXISTS users(id INT PRIMARY KEY AUTO_INCREMENT, username TEXT, password TEXT)");
 
 $log_check = $db->query("SELECT * FROM users WHERE id='1'");
 $roe = $log_check->fetch_assoc();
