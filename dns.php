@@ -6,7 +6,7 @@ include ('includes/header.php');
 $table_name = "dns";
 
 //create if not
-$db->query("CREATE TABLE IF NOT EXISTS {$table_name}(id INTEGER PRIMARY KEY  AUTOINCREMENT  NOT NULL, title TEXT, url TEXT)");
+$db->query("CREATE TABLE IF NOT EXISTS {$table_name}(id INT PRIMARY KEY AUTO_INCREMENT  NOT NULL, title TEXT, url TEXT)");
 
 //table call
 $res = $db->query("SELECT * FROM {$table_name}");

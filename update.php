@@ -3,7 +3,7 @@ include ('includes/header.php');
 
 $table_name = 'update_apk';
 
-$db->query("CREATE TABLE IF NOT EXISTS {$table_name}(id INTEGER PRIMARY KEY,app_name TEXT,version TEXT ,apk TEXT,package TEXT,u_date TEXT)");
+$db->query("CREATE TABLE IF NOT EXISTS {$table_name}(id INT PRIMARY KEY AUTO_INCREMENT,app_name TEXT,version TEXT ,apk TEXT,package TEXT,u_date TEXT)");
 
 $rows = $db->query("SELECT COUNT(*) as count FROM {$table_name}");
 $row = $rows->fetch_assoc();
