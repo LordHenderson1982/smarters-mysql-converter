@@ -7,8 +7,8 @@ initializeDatabase($db);
 // Handle form submission for adding new URLs
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_url'])) {
     $url = sanitize($_POST['url']);
-    $stmt = $db->prepare("INSERT INTO ads2_images (ads2_id, url) VALUES (1, :url)");
-    $stmt->bindValue(':url', $url, SQLITE3_TEXT);
+    $stmt = $db->prepare("INSERT INTO ads2_images (ads2_id, url) VALUES (1, ?)");
+    $stmt->bind_param('?', $url, );
     if ($stmt->execute()) {
         echo "<div class='alert alert-success'>URL added successfully.</div>";
     } else {
@@ -19,8 +19,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_url'])) {
 // Handle deletion of URLs
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_url'])) {
     $id = (int)$_POST['id'];
-    $stmt = $db->prepare("DELETE FROM ads2_images WHERE id = :id");
-    $stmt->bindValue(':id', $id, SQLITE3_INTEGER);
+    $stmt = $db->prepare("DELETE FROM ads2_images WHERE id = ?");
+    $stmt->bind_param('?', $id, );
     if ($stmt->execute()) {
         echo "<div class='alert alert-success'>URL deleted successfully.</div>";
     } else {
@@ -33,8 +33,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_ads'])) {
     $text1 = sanitize($_POST['text1']);
 
     // Update ads table
-    $stmt1 = $db->prepare("INSERT OR REPLACE INTO ads (id, text) VALUES (1, :text)");
-    $stmt1->bindValue(':text', $text1, SQLITE3_TEXT);
+    $stmt1 = $db->prepare("INSERT IGNORE INTO ads (id, text) VALUES (1, ?)");
+    $stmt1->bind_param('?', $text1, );
     if ($stmt1->execute()) {
         echo "<div class='alert alert-success'>Ads table updated successfully.</div>";
     } else {
@@ -47,8 +47,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_ads2'])) {
     $text2 = sanitize($_POST['text2']);
 
     // Update ads2 table
-    $stmt2 = $db->prepare("INSERT OR REPLACE INTO ads2 (id, text) VALUES (1, :text)");
-    $stmt2->bindValue(':text', $text2, SQLITE3_TEXT);
+    $stmt2 = $db->prepare("INSERT IGNORE INTO ads2 (id, text) VALUES (1, ?)");
+    $stmt2->bind_param('?', $text2, );
     if ($stmt2->execute()) {
         echo "<div class='alert alert-success'>Ads2 table updated successfully.</div>";
     } else {
@@ -60,7 +60,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_ads2'])) {
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['toggle_tmdb'])) {
     $tmdb_api_enabled = (int)$_POST['tmdb_api_enabled'];
     $stmt3 = $db->prepare("UPDATE settings SET tmdb_api_enabled = :tmdb_api_enabled WHERE id = 1");
-    $stmt3->bindValue(':tmdb_api_enabled', $tmdb_api_enabled, SQLITE3_INTEGER);
+    $stmt3->bind_param(':tmdb_api_enabled', $tmdb_api_enabled, );
     if ($stmt3->execute()) {
         echo "<div class='alert alert-success'>TMDB API state updated successfully.</div>";
     } else {
@@ -70,14 +70,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['toggle_tmdb'])) {
 
 // Fetch existing data for display in the form
 $res1 = $db->query("SELECT * FROM ads WHERE id=1");
-$rowU1 = $res1 ? $res1->fetchArray(SQLITE3_ASSOC) : ['text' => ''];
+$rowU1 = $res1 ? $res1->fetch_assoc() : ['text' => ''];
 
 $res2 = $db->query("SELECT * FROM ads2 WHERE id=1");
-$rowU2 = $res2 ? $res2->fetchArray(SQLITE3_ASSOC) : ['text' => ''];
+$rowU2 = $res2 ? $res2->fetch_assoc() : ['text' => ''];
 
 $res3 = $db->query("SELECT * FROM ads2_images WHERE ads2_id=1");
 $ads2Urls = [];
-while ($row = $res3->fetchArray(SQLITE3_ASSOC)) {
+while ($row = $res3->fetch_assoc()) {
     $ads2Urls[] = $row;
 }
 
