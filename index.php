@@ -55,10 +55,10 @@ if (isset($_POST["login"])){
                 header('Location: dns.php');
             }
         }else{
-        header('Location: ./api/index.php');
+        header('Location: index.php?error=1');
         }
     }else{
-        header('Location: ./api/index.php');
+        header('Location: index.php?error=1');
     }
     $db->close();
 }
