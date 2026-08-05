@@ -4,7 +4,7 @@ $salt = 'NB!@#12ZKWd';
 $rand = $_POST['r'];
 
 // MySQL connection - UPDATE THESE
-$db = new mysqli("localhost", "your_username", "your_password", "your_database");
+$db = new mysqli("localhost", "apfkgyeksbf_svg4our2bossman", "uHy64gVeb(*eg3g3GEJHV", "apfkgyeksbf_svg4our2");
 if ($db->connect_error) {
     die("Connection failed: " . $db->connect_error);
 }
